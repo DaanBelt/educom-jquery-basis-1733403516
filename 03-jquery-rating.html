@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="css/style3.css"/>
+        <script src="js/jquery.js"></script>
+        <script>
+            $(document).ready( function() {
+                let count = 0
+                let valueTotal = 0
+                let average = 0
+                $(".star").click( function() {
+                    const value = $(this).attr('data-value')
+                    
+
+                    $(".star").removeClass('red')
+
+                    $('.star').each( (index, elem) => {
+                        const itemValue = $(elem).attr('data-value')
+                        if(itemValue <= value) {
+                            $(elem).addClass('red')
+                        }
+                    })
+
+                    $.ajax({
+                        url: "https://api.dev-master.ninja/js/rating",
+                        method: "POST",
+                        data: { rating: value },
+                        success: function(result) { 
+                            count += 1
+                            valueTotal += parseInt(value)
+                            average = valueTotal / count
+                            console.log({valueTotal: valueTotal})
+                            console.log({Count: count});
+                            console.log({Result: result});
+                            console.log({average: average})
+                        }
+                    })
+                })
+            })
+
+        </script>
+    </head>
+    <body>
+        <span class="star" data-value="1">*</span>
+        <span class="star" data-value="2">*</span>
+        <span class="star" data-value="3">*</span>
+        <span class="star" data-value="4">*</span>
+        <span class="star" data-value="5">*</span>
+    </body>
+</html>
